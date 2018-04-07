@@ -24,6 +24,8 @@ import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
 
+//TODO OK
+
 public class SplashActivity extends AppCompatActivity {
 
     private AsyncHttpClient oHttpClient;
