@@ -277,48 +277,51 @@ public class ListActivity extends AppCompatActivity {
     private void filtrarListadoPorDistanciaMaxima() {
         List<Publicacion> auxList =new ArrayList<>();
         Double distanciaMaxima=0.00;
-        //FILTRADO POR DISTANCIA MAXIMA
-        // 1->1 km,  2->2 km, 3->5 km, 4->10 km, 5->15 km
-        switch (sharedPref.getInt(CLAVES.DISTANCIA_MAXIMA, 0)){
-            case 1:
-                distanciaMaxima=1.00;
-                break;
-            case 2:
-                distanciaMaxima=3.00;
-                break;
-            case 3:
-                distanciaMaxima=5.00;
-                break;
-            case 4:
-                distanciaMaxima=10.00;
-                break;
-            case 5:
-                distanciaMaxima=15.00;
-                break;
-        }
-
-        if(distanciaMaxima>0){
-            for (Publicacion publicacion:listadoActual) {
-                if(publicacion.getDistancia()<=distanciaMaxima){
-                    auxList.add(publicacion);
-                }
+        if(sharedPref.getBoolean(CLAVES.FILTRAR, false)) {
+            //FILTRADO POR DISTANCIA MAXIMA
+            // 1->1 km,  2->2 km, 3->5 km, 4->10 km, 5->15 km
+            switch (sharedPref.getInt(CLAVES.DISTANCIA_MAXIMA, 0)) {
+                case 1:
+                    distanciaMaxima = 1.00;
+                    break;
+                case 2:
+                    distanciaMaxima = 3.00;
+                    break;
+                case 3:
+                    distanciaMaxima = 5.00;
+                    break;
+                case 4:
+                    distanciaMaxima = 10.00;
+                    break;
+                case 5:
+                    distanciaMaxima = 15.00;
+                    break;
             }
-            listadoActual=auxList;
-        }
 
+            if (distanciaMaxima > 0) {
+                for (Publicacion publicacion : listadoActual) {
+                    if (publicacion.getDistancia() <= distanciaMaxima) {
+                        auxList.add(publicacion);
+                    }
+                }
+                listadoActual = auxList;
+            }
+        }
     }
     private void filtrarListadoPorPalabraClave(String palabra) {
         List<Publicacion> auxList =new ArrayList<>();
-        for (Publicacion publicacion:listadoActual) {
-            if(publicacion.getDatosBasicos().getNombre().toLowerCase().contains(palabra.toLowerCase()) ||
-                    publicacion.getDireccion().getCalle().toLowerCase().contains(palabra.toLowerCase()) ||
-                    publicacion.getDireccion().getCiudad().toLowerCase().contains(palabra.toLowerCase()) ||
-                    publicacion.getDireccion().getLocalidad().toLowerCase().contains(palabra.toLowerCase()) ||
-                    contienePalabra(publicacion.getDatosBasicos().getTipoPub(), palabra)){
-                auxList.add(publicacion);
+        if(sharedPref.getBoolean(CLAVES.FILTRAR, false)) {
+            for (Publicacion publicacion : listadoActual) {
+                if (publicacion.getDatosBasicos().getNombre().toLowerCase().contains(palabra.toLowerCase()) ||
+                        publicacion.getDireccion().getCalle().toLowerCase().contains(palabra.toLowerCase()) ||
+                        publicacion.getDireccion().getCiudad().toLowerCase().contains(palabra.toLowerCase()) ||
+                        publicacion.getDireccion().getLocalidad().toLowerCase().contains(palabra.toLowerCase()) ||
+                        contienePalabra(publicacion.getDatosBasicos().getTipoPub(), palabra)) {
+                    auxList.add(publicacion);
+                }
             }
+            listadoActual = auxList;
         }
-        listadoActual=auxList;
     }
     private boolean contienePalabra(int id, String palabra ){
         return PubFactory.getTipoPublicacionList().get(id-1).getDescripcion().contains(palabra);
