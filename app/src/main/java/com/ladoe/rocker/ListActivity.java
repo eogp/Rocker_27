@@ -110,7 +110,8 @@ public class ListActivity extends AppCompatActivity {
         textViewMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadImage.cancel(true);
+                if(loadImage!=null)
+                    loadImage.cancel(true);
                 startActivity(new Intent(ListActivity.this, MapActivity.class));
                 finish();
             }

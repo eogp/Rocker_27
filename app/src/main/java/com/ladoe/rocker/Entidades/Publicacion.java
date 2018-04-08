@@ -1,6 +1,7 @@
 package com.ladoe.rocker.Entidades;
 
 
+import com.google.android.gms.maps.model.Marker;
 import com.ladoe.rocker.Entidades.SubTipos.DatosBasicos;
 import com.ladoe.rocker.Entidades.SubTipos.Direccion;
 import com.ladoe.rocker.Entidades.SubTipos.Imagen;
@@ -17,7 +18,7 @@ public class Publicacion {
     private Video video;
     private List<Imagen> imagenList;
     private Double distancia;
-    /*private Marker marker;
+    private Marker marker;
 
     public Marker getMarker() {
         return marker;
@@ -26,7 +27,7 @@ public class Publicacion {
     public void setMarker(Marker marker) {
         this.marker = marker;
     }
-*/
+
     public Double getDistancia() {
         return distancia;
     }
