@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="16dp"
-        android:text="Ingresar"
+        android:text="Resgitrate"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -34,21 +35,49 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="Ingresa tu mail"
         android:inputType="textEmailAddress"
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitulo"
         android:layout_marginLeft="36dp" />
 
+    <EditText
+        android:id="@+id/editTextRetryEmail"
+        android:layout_width="252dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="Repite tu mail"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitulo"
+        android:layout_marginLeft="36dp" />
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="252dp"
         android:layout_height="48dp"
         android:layout_marginStart="36dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Ingresa tu contraseña"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
+        android:layout_marginLeft="36dp" />
+
+    <EditText
+        android:id="@+id/editTextRetryPassword"
+        android:layout_width="252dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="124dp"
+        android:ems="10"
+        android:hint="Repite tu contraseña"
         android:inputType="textPassword"
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,11 +85,11 @@
         android:layout_marginLeft="36dp" />
 
     <ImageButton
-        android:id="@+id/imageButtonLogin"
+        android:id="@+id/imageButtonRegister"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="112dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,51 +97,4 @@
         app:srcCompat="@mipmap/login_arrow"
         android:layout_marginRight="16dp" />
 
-    <TextView
-        android:id="@+id/textViewRecoveryPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="12dp"
-        android:text="¿Olvidaste tu password?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-        android:layout_marginLeft="116dp" />
-
-    <TextView
-        android:id="@+id/textViewFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Ingresar \ncon Facebook"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="16dp" />
-
-    <TextView
-        android:id="@+id/textViewRegistrate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Eres nuevo? \nRegistrate acá"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textViewInvitado"
-        app:layout_constraintStart_toEndOf="@+id/textViewFacebook" />
-
-    <TextView
-        android:id="@+id/textViewInvitado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Ingresar \ncomo invitado"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="16dp" />
 </android.support.constraint.ConstraintLayout>

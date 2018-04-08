@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RecoveyPassActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="384dp"
+        android:layout_height="293dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/login_header" />
+
+    <TextView
+        android:id="@+id/textViewTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="24dp"
+        android:text="Recupero de contraseña."
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:layout_marginLeft="36dp" />
+
+    <TextView
+        android:id="@+id/textViewTexto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="80dp"
+        android:text="Ingresa el email con el que te registraste."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:layout_marginLeft="36dp" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="252dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="76dp"
+        android:ems="10"
+        android:hint="Ingresa tu mail"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitulo"
+        android:layout_marginLeft="36dp" />
+
+
+    <ImageButton
+        android:id="@+id/imageButtonRegister"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="112dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@mipmap/login_arrow"
+        android:layout_marginRight="16dp" />
+
+</android.support.constraint.ConstraintLayout>
