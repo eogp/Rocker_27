@@ -1,9 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetalleActivity">
 
+    <ImageView
+        android:id="@+id/imageViewBack"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@mipmap/menu_arrow"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/textViewNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Publicación"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/divider"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombre" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:context=".DetalleActivity" />
+
+            <TextView
+                android:id="@+id/textViewTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Información"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/map"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/textViewTipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Salas de ensayo y estudios"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitulo"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/textViewDistancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Estas a 1,5 km"
+                android:textColor="#00d8d8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTipo"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/textViewDireccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="NicetoVega 4576"
+                android:textColor="#000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDistancia"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/textViewLocalidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Capital Federal"
+                android:textColor="#000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDireccion"
+                android:layout_marginLeft="16dp" />
+
+            <TextView
+                android:id="@+id/textViewTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="4956-1228"
+                android:textColor="#000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLocalidad"
+                android:layout_marginLeft="16dp" />
+            <TextView
+                android:id="@+id/textViewMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="info@salaensayo.com"
+                android:textColor="#000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTelefono"
+                android:layout_marginLeft="16dp" />
+            <TextView
+                android:id="@+id/textViewWeb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="www.salaensayo.com"
+                android:textColor="#000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMail"
+                android:layout_marginLeft="16dp" />
+
+            <ImageView
+                android:id="@+id/barraDemo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@mipmap/bara_demo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWeb" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/myViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barraDemo" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
