@@ -3,8 +3,8 @@ package com.ladoe.rocker;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +22,8 @@ import com.ladoe.rocker.Patrones.PubFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiltroActivity extends AppCompatActivity {
 
+public class FiltroActivity extends AppCompatActivity {
     private ImageView imageVieBack;
     private Spinner spinnerDistanciaMaxima;
     private Spinner spinnerCategoria;
@@ -39,22 +39,24 @@ public class FiltroActivity extends AppCompatActivity {
     private List<String> ordenarPor;
     private List<String> subCategorias;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtro);
 
         //instancias
-        spinnerDistanciaMaxima=findViewById(R.id.spinnerDistanciaMaxima);
-        spinnerCategoria=findViewById(R.id.spinnerCategoria);
-        spinnerSubCategoria=findViewById(R.id.spinnerSubCategoria);
-        spinnerOrdenarPor=findViewById(R.id.spinnerOrdenarPor);
-        editTextpalabraClave=findViewById(R.id.editTextPalabraClave);
-        imageVieBack=findViewById(R.id.imageViewBack);
-        textViewBorrar=findViewById(R.id.textViewBorrar);
-        textViewContiuar=findViewById(R.id.textViewContinuar);
-        textViewOrdenarPor=findViewById(R.id.textViewOrdenarPor);
-        dividerOrdenarPor=findViewById(R.id.dividerOrdenarPor) ;
+        spinnerDistanciaMaxima=(Spinner)findViewById(R.id.spinnerDistanciaMaxima);
+        spinnerCategoria=(Spinner)findViewById(R.id.spinnerCategoria);
+        spinnerSubCategoria=(Spinner)findViewById(R.id.spinnerSubCategoria);
+        spinnerOrdenarPor=(Spinner)findViewById(R.id.spinnerOrdenarPor);
+        editTextpalabraClave=(EditText)findViewById(R.id.editTextPalabraClave);
+        imageVieBack=(ImageView) findViewById(R.id.imageViewBack);
+        textViewBorrar=(TextView) findViewById(R.id.textViewBorrar);
+        textViewContiuar=(TextView) findViewById(R.id.textViewContinuar);
+        textViewOrdenarPor=(TextView)findViewById(R.id.textViewOrdenarPor);
+        dividerOrdenarPor=(View)findViewById(R.id.dividerOrdenarPor) ;
         //listener
         imageVieBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +87,7 @@ public class FiltroActivity extends AppCompatActivity {
         cargarOrdenarPor();
 
         //ocultar campos segun origen
-        if(obtenerOrigen()==CLAVES.MAPACTIVITY) {
+        if(obtenerOrigen()== CLAVES.MAPACTIVITY) {
             dividerOrdenarPor.setVisibility(View.GONE);
             textViewOrdenarPor.setVisibility(View.GONE);
             spinnerOrdenarPor.setVisibility(View.GONE);
@@ -184,7 +186,7 @@ public class FiltroActivity extends AppCompatActivity {
         categorias=new ArrayList<>();
         categorias.add("Categoria");
         for (TipoPublicacion tipoPublicacion:
-                PubFactory.getTipoPublicacionList()) {
+             PubFactory.getTipoPublicacionList()) {
             categorias.add(tipoPublicacion.getDescripcion());
         }
         spinnerCategoria.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, categorias){
@@ -274,8 +276,7 @@ public class FiltroActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(CLAVES.FILTRO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(CLAVES.FILTRAR, false);
-
-        editor.apply();
+        editor.commit();
     }
 
     public void guardarSeleccion(){
@@ -303,7 +304,8 @@ public class FiltroActivity extends AppCompatActivity {
             editor.putBoolean(CLAVES.FILTRAR, false);
 
         }
-        editor.apply();
+        editor.commit();
 
     }
+
 }
