@@ -1,6 +1,7 @@
 package com.ladoe.rocker;
 
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,7 @@ import com.ladoe.rocker.Constantes.CLAVES;
 import com.ladoe.rocker.Entidades.Publicacion;
 import com.ladoe.rocker.Entidades.SubTipos.Imagen;
 import com.ladoe.rocker.Entidades.TipoPublicacion;
+import com.ladoe.rocker.Fragments.EstiloVidaFragment;
 import com.ladoe.rocker.Fragments.ImagenFragment;
 import com.ladoe.rocker.Fragments.SalasFragment;
 import com.ladoe.rocker.Patrones.PubFactory;
@@ -37,7 +39,6 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
 
     private Publicacion publicacion;
     private GoogleMap mMap;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
         cargaDatosBasicos();
 
         //carga de imagefragments en SectionsPagerAdapter
-        generarFragmentImagenes(pagerAdapter);
+        generarFragmentImagenes(pagerAdapter, mViewPager);
 
         //carga de SectionsPagerAdapter en mViewPager
         mViewPager.setAdapter(pagerAdapter);
@@ -136,18 +137,29 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
             case 1:
                 SalasFragment salasFragment=new SalasFragment();
                 salasFragment.setPublicacion(publicacion);
-                FragmentManager fragmentManager = getFragmentManager();
-                android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.contenedor, salasFragment).commit();
+                cargarFragmentDatosEspecificos(salasFragment);
+                break;
+            case 3:
+                EstiloVidaFragment estiloVidaFragment=new EstiloVidaFragment();
+                estiloVidaFragment.setPublicacion(publicacion);
+                cargarFragmentDatosEspecificos(estiloVidaFragment);
                 break;
         }
     }
-    private void generarFragmentImagenes(SectionsPagerAdapter pagerAdapter ){
-        if(publicacion!=null){
+    private void cargarFragmentDatosEspecificos(Fragment fragment){
+        FragmentManager fragmentManager = getFragmentManager();
+        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.contenedor, fragment).commit();
+
+    }
+    private void generarFragmentImagenes(SectionsPagerAdapter pagerAdapter, ViewPager viewPager ){
+        if(publicacion!=null && !publicacion.getImagenList().isEmpty()){
             for(Imagen imagen:publicacion.getImagenList()){
                 pagerAdapter.addFragment(ImagenFragment.newInstance(imagen.getUri(),null));
 
             }
+        }else{
+            viewPager.setVisibility(View.GONE);
         }
     }
 
