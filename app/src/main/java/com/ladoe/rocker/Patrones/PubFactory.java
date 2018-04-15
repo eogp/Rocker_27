@@ -103,14 +103,14 @@ public class PubFactory {
 
             //LISTA TIPOS DE SUBCATEGORIAS
             JSONArray jsonArrayEstilosVida = jsonObject.getJSONArray("estiloVida");
-            Log.d("factory", jsonArrayEstilosVida.toString());
+            //Log.d("factory", jsonArrayEstilosVida.toString());
             for (int i=0; i<jsonArrayEstilosVida.length(); i++){
                 estilosVida.add(jsonArrayEstilosVida.getJSONObject(i).optString("descripcion"));
             }
 
             //LISTA TIPOS DE PUBLICACIONES
             JSONArray jsonArrayTiposPublicaciones = jsonObject.getJSONArray("tiposPub");
-            Log.d("factory", jsonArrayTiposPublicaciones.toString());
+            //Log.d("factory", jsonArrayTiposPublicaciones.toString());
             for (int i=0; i<jsonArrayTiposPublicaciones.length(); i++){
                 TipoPublicacion tipoPublicacion=new TipoPublicacion();
                 tipoPublicacion.setId(jsonArrayTiposPublicaciones.getJSONObject(i).optInt("id"));
@@ -207,7 +207,7 @@ public class PubFactory {
                         break;
                     case 2:
                         //venta de instrumentos
-                        //Log.d("factory", jsonObjectPublicacion.toString());
+                        Log.d("factory", jsonObjectPublicacion.toString());
                         //datos generales
                         VentaDeInstrumentos ventaDeInstrumentos=new VentaDeInstrumentos();
                         ventaDeInstrumentos.setDatosBasicos(datosBasicos);
@@ -225,7 +225,10 @@ public class PubFactory {
 
                         Instrumento instrumento=new Instrumento();
                         instrumento.setTipo(jsonObjectTipo.optString("descripcion"));
-                        instrumento.setMarca(jsonObjectInstrumento.optString("marca"));
+                        if(!jsonObjectTipo.optString("descripcion").equals("Otros")){
+                            JSONObject jsonObjectMarca=jsonObjectInstrumento.getJSONObject("marca");
+                            instrumento.setMarca(jsonObjectMarca.optString("descripcion"));
+                        }
                         instrumento.setAnio(jsonObjectInstrumentoDatos.optInt("anio"));
                         instrumento.setEstado(jsonObjectInstrumentoDatos.optString("estado"));
                         instrumento.setOtro(jsonObjectInstrumentoDatos.optString("otro"));
@@ -240,7 +243,7 @@ public class PubFactory {
                     case 3:
                         //estilo de vida
                         //datos generales
-                        Log.d("factory", jsonObjectPublicacion.toString());
+                        //Log.d("factory", jsonObjectPublicacion.toString());
                         EstiloDeVida estiloDeVida=new EstiloDeVida();
                         estiloDeVida.setDatosBasicos(datosBasicos);
                         estiloDeVida.setDireccion(direccion);
@@ -332,7 +335,7 @@ public class PubFactory {
         }
 
         //verificacion por consola
-        checkEstiloVida();
+        checkVentaInstrumentos();
     }
 
 
