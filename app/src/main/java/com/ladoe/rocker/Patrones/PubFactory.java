@@ -335,7 +335,7 @@ public class PubFactory {
         }
 
         //verificacion por consola
-        checkVentaInstrumentos();
+        checkShowEventos();
     }
 
 
