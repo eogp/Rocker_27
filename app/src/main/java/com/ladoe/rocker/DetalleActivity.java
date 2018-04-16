@@ -27,6 +27,7 @@ import com.ladoe.rocker.Entidades.TipoPublicacion;
 import com.ladoe.rocker.Fragments.EstiloVidaFragment;
 import com.ladoe.rocker.Fragments.ImagenFragment;
 import com.ladoe.rocker.Fragments.SalasFragment;
+import com.ladoe.rocker.Fragments.ServicosProfFragment;
 import com.ladoe.rocker.Fragments.ShowsYEventosFragment;
 import com.ladoe.rocker.Fragments.VentaInstrumentosFragment;
 import com.ladoe.rocker.Patrones.PubFactory;
@@ -150,6 +151,11 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
                 EstiloVidaFragment estiloVidaFragment=new EstiloVidaFragment();
                 estiloVidaFragment.setPublicacion(publicacion);
                 cargarFragmentDatosEspecificos(estiloVidaFragment);
+                break;
+            case 4:
+                ServicosProfFragment servicosProfFragment=new ServicosProfFragment();
+                servicosProfFragment.setPublicacion(publicacion);
+                cargarFragmentDatosEspecificos(servicosProfFragment);
                 break;
             case 5:
                 ShowsYEventosFragment showsYEventosFragment=new ShowsYEventosFragment();
