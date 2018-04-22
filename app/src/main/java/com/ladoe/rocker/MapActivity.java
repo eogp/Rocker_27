@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -555,10 +556,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public  void mostrarDetalleActivity(Publicacion publicacion){
+    public void mostrarDetalleActivity(Publicacion publicacion){
         Intent intent=new Intent(MapActivity.this, DetalleActivity.class);
         intent.putExtra(CLAVES.ID,publicacion.getDatosBasicos().getId());
         startActivity(intent);
     }
+    public void llamar(Publicacion publicacion){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + publicacion.getTelefono().getCodArea()+publicacion.getTelefono().getNumero()));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+
 
 }

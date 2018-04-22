@@ -63,6 +63,14 @@ public class ItemDetalleFragment extends Fragment {
 
             }
         });
+        textViewLlamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapActivity.llamar(publicacion);
+
+
+            }
+        });
         textViewDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

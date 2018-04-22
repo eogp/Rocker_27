@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -403,8 +404,6 @@ public class ListActivity extends AppCompatActivity {
                 this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1222);
     }
 
-
-
     //LOCALIZACION Y ACTUALIZACION DE LISTADOS
     private void activarLocalizacion(){
 
@@ -515,4 +514,13 @@ public class ListActivity extends AppCompatActivity {
         startActivity(new Intent(ListActivity.this, LoginActivity.class));
         finish();
     }
+
+    public void llamar(Publicacion publicacion){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + publicacion.getTelefono().getCodArea()+publicacion.getTelefono().getNumero()));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 }

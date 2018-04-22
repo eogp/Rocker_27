@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ladoe.rocker.Constantes.CLAVES;
 import com.ladoe.rocker.Entidades.Publicacion;
 import com.ladoe.rocker.Entidades.TipoPublicacion;
+import com.ladoe.rocker.ListActivity;
 import com.ladoe.rocker.R;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<? extends Publicacion> mDataset;
     private List<TipoPublicacion> tipoPublicacionList;
     private boolean flagBackGround=false;
-    private AppCompatActivity activity;
+    private ListActivity listActivity;
     private Intent intent;
 
     public List<? extends Publicacion> getmDataset() {
@@ -63,10 +64,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<? extends Publicacion> myDataset, List<TipoPublicacion> tipoPublicacionList, AppCompatActivity activity, Intent intent) {
+    public MyAdapter(List<? extends Publicacion> myDataset, List<TipoPublicacion> tipoPublicacionList, ListActivity listActivity, Intent intent) {
         this.mDataset = myDataset;
         this.tipoPublicacionList=tipoPublicacionList;
-        this.activity=activity;
+        this.listActivity=listActivity;
         this.intent=intent;
     }
 
@@ -112,14 +113,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 intent.putExtra(CLAVES.ID,mDataset.get(position).getDatosBasicos().getId());
-                activity.startActivity(intent);
+                listActivity.startActivity(intent);
             }
         });
 
         holder.imageViewLLamar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent=new Intent(Intent.ACTION_CALL);
+                listActivity.llamar(mDataset.get(position));
 
             }
         });
