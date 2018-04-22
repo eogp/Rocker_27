@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.ladoe.rocker.Fragments.SalasFragment;
 import com.ladoe.rocker.Fragments.ServicosProfFragment;
 import com.ladoe.rocker.Fragments.ShowsYEventosFragment;
 import com.ladoe.rocker.Fragments.VentaInstrumentosFragment;
+import com.ladoe.rocker.Fragments.VideoFragment;
 import com.ladoe.rocker.Patrones.PubFactory;
 import com.ladoe.rocker.Patrones.SectionsPagerAdapter;
 
@@ -72,8 +74,8 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
         //carga de datos basicos
         cargaDatosBasicos();
 
-        //carga de imagefragments en SectionsPagerAdapter
-        generarFragmentImagenes(pagerAdapter, mViewPager);
+        //carga de imagefragments y video en SectionsPagerAdapter
+        generarFragmentImagenesYVideo(pagerAdapter, mViewPager);
 
         //carga de SectionsPagerAdapter en mViewPager
         mViewPager.setAdapter(pagerAdapter);
@@ -170,16 +172,25 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
         fragmentTransaction.add(R.id.contenedor, fragment).commit();
 
     }
-    private void generarFragmentImagenes(SectionsPagerAdapter pagerAdapter, ViewPager viewPager ){
-        if(publicacion!=null && !publicacion.getImagenList().isEmpty()){
-            for(Imagen imagen:publicacion.getImagenList()){
-                pagerAdapter.addFragment(ImagenFragment.newInstance(imagen.getUri(),null));
+    private void generarFragmentImagenesYVideo(SectionsPagerAdapter pagerAdapter, ViewPager viewPager ){
+        if(publicacion!=null) {
 
+            if (!publicacion.getVideo().equals("null")) {
+                pagerAdapter.addFragment(VideoFragment.newInstance(publicacion.getVideo().getUri(), null));
             }
-        }else{
-            viewPager.setVisibility(View.GONE);
+
+            if (!publicacion.getImagenList().isEmpty()) {
+                for (Imagen imagen : publicacion.getImagenList()) {
+                    pagerAdapter.addFragment(ImagenFragment.newInstance(imagen.getUri(), null));
+                }
+            }
+
+            if (publicacion.getImagenList().isEmpty() && publicacion.getVideo().getUri().equals("")) {
+                viewPager.setVisibility(View.GONE);
+            }
         }
     }
+
 
     //maps intercafe
     @Override
