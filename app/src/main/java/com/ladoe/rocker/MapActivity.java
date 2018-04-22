@@ -1,6 +1,7 @@
 package com.ladoe.rocker;
 
 import android.Manifest;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -34,12 +36,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.ladoe.rocker.CargaAsincorinca.LoadImage;
 import com.ladoe.rocker.Constantes.CLAVES;
 import com.ladoe.rocker.Entidades.EstiloDeVida;
 import com.ladoe.rocker.Entidades.Publicacion;
+import com.ladoe.rocker.Fragments.ItemDetalleFragment;
 import com.ladoe.rocker.Patrones.PubFactory;
 
 import java.io.IOException;
@@ -47,7 +51,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnMyLocationButtonClickListener {
 
 
     private LoadImage loadImage;
@@ -63,6 +67,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView textViewListado;
     private TextView textViewFiltros;
     private GoogleMap mMap;
+    private FrameLayout frameLayout;
+
     private List<Publicacion> listadoActual;
     //POSISIONAMIENTO
     private FusedLocationProviderClient mFusedLocationClient;
@@ -83,6 +89,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         textViewFiltros = findViewById(R.id.textViewFiltros);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         sharedPref = getSharedPreferences(CLAVES.FILTRO, MODE_PRIVATE);
+        frameLayout=findViewById(R.id.itemDetalle);
 
         //instancias menu
         imageViewCloseDrawer =  findViewById(R.id.imageViewCloseDrawer);
@@ -428,7 +435,46 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         activarLocalizacion(true);
         cargarMarcadores();
+        mMap.setOnCameraMoveStartedListener(this);
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                mostrarItemDetalle(marker);
+                return true;
+            }
+        });
     }
+    @Override
+    public boolean onMyLocationButtonClick() {
+        activarLocalizacion(true);
+        return true;
+    }
+    @Override
+    public void onCameraMoveStarted(int reason) {
+        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+            activarLocalizacion(false);
+        }
+    }
+
+    //ITEM DETALLE
+    private void mostrarItemDetalle(Marker marker) {
+        ItemDetalleFragment itemDetalleFragment=new ItemDetalleFragment();
+        itemDetalleFragment.setAppCompatActivity(this);
+        for(Publicacion publicacion:listadoActual){
+            if(publicacion.getMarker().equals(marker)){
+                itemDetalleFragment.setPublicacion(publicacion);
+            }
+        }
+        FragmentManager fragmentManager = getFragmentManager();
+        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.itemDetalle, itemDetalleFragment).commit();
+        frameLayout.setVisibility(View.VISIBLE);
+    }
+    public void quitarItemDetalle(){
+        frameLayout.setVisibility(View.GONE);
+    }
+
     public void reubicarCamara(Location location) {
         Log.d("reubicarCamara: ", "se ejecuto reubicarCamara()");
 
@@ -451,7 +497,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         .icon(BitmapDescriptorFactory.fromBitmap(bitmap))));
                 if (publicacion.getDistancia() != null)
                     publicacion.getMarker().setSnippet("Distancia " + df.format(publicacion.getDistancia()) + " Km.");
-
+                
             }
         }
     }
@@ -466,8 +512,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 dialogoFaltanPermisos();
                 return;
             }
-            //habilita la localizacion de maps
-            if(mMap!=null) mMap.setMyLocationEnabled(true);
             //habilita la localizacion de play services
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -489,8 +533,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     });
         }
         else{
-            //
-            mMap.setMyLocationEnabled(false);
+            //habilita la localizacion de play services
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -498,10 +541,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
+                                //reubicarCamara(location);
+                                obtenerDistancias(listadoActual, location);
+                                filtrarListadoPorDistanciaMaxima();
+                                cargarMarcadores();
+                            }else{
+                                Toast toast= Toast.makeText(MapActivity.this, "Esperado ubicación.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.BOTTOM,0,200);
+                                toast.show();
                             }
                         }
                     });
         }
+    }
+
+    public  void mostrarDetalleActivity(Publicacion publicacion){
+        Intent intent=new Intent(MapActivity.this, DetalleActivity.class);
+        intent.putExtra(CLAVES.ID,publicacion.getDatosBasicos().getId());
+        startActivity(intent);
     }
 
 }

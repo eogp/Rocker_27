@@ -71,6 +71,9 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //deshabilito listener de click en map
+        mapFragment.getView().setClickable(false);
+
         //carga de datos basicos
         cargaDatosBasicos();
 
@@ -198,6 +201,7 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
         mMap = googleMap;
         mMap.getUiSettings().setMapToolbarEnabled(false);
         cargarMarcador();
+
     }
     private void cargarMarcador() {
         // Marcador
