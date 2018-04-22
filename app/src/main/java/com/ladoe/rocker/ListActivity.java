@@ -47,6 +47,7 @@ import java.util.List;
 public class ListActivity extends AppCompatActivity {
 
     private LoadImage loadImage;
+    private LoadImage loadImage2;
     private AlertDialog alert;
     private DrawerLayout mDrawerLayout;
     private ScrollView scrollViewMenu;
@@ -56,6 +57,7 @@ public class ListActivity extends AppCompatActivity {
     private TextView textViewFiltros;
     private RecyclerView mRecyclerView;
     private MyAdapter mAdapter;
+    private ImageView imageViewOpenDrawer;
     private List<Publicacion> listadoActual;
     //POSISIONAMIENTO
     private FusedLocationProviderClient mFusedLocationClient;
@@ -73,7 +75,7 @@ public class ListActivity extends AppCompatActivity {
 
         //instancias
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        ImageView imageViewOpenDrawer = findViewById(R.id.imageViewOpenDrawer);
+        imageViewOpenDrawer = findViewById(R.id.imageViewOpenDrawer);
         TextView textViewMapa=findViewById(R.id.textViewMapa);
         textViewFiltros=findViewById(R.id.textViewFiltros);
         mRecyclerView = findViewById(R.id.my_recycler_view);
@@ -236,6 +238,8 @@ public class ListActivity extends AppCompatActivity {
         if(!sharedPref.getString("faceid","").equals("null")) {
             loadImage=new LoadImage(imageViewPerfil, this);
             loadImage.execute("https://graph.facebook.com/" + sharedPref.getString("faceid","") + "/picture?width=500&height=500");
+            loadImage2=new LoadImage(imageViewOpenDrawer,this);
+            loadImage2.execute("https://graph.facebook.com/" + sharedPref.getString("faceid", "") + "/picture?width=500&height=500");
         }
     }
 

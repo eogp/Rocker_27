@@ -56,6 +56,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     private LoadImage loadImage;
+    private LoadImage loadImage2;
+
     private AlertDialog alert;
     private DrawerLayout mDrawerLayout;
     private ScrollView scrollViewMenu;
@@ -244,6 +246,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (!sharedPref.getString("faceid", "").equals("null")) {
             loadImage = new LoadImage(imageViewPerfil, this);
             loadImage.execute("https://graph.facebook.com/" + sharedPref.getString("faceid", "") + "/picture?width=500&height=500");
+            loadImage2=new LoadImage(imageViewOpenDrawer,this);
+            loadImage2.execute("https://graph.facebook.com/" + sharedPref.getString("faceid", "") + "/picture?width=500&height=500");
+
         }
     }
 
