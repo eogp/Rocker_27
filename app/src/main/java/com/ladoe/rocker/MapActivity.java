@@ -390,7 +390,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
     //-----------------
 
-    //BORRA LA SESION Y LANZA LOGINACTIVITY
+    //BORRA LA SESION Y LANZA LoginActivity2
     private void cerrarSesion() {
         SharedPreferences sharedPref = getSharedPreferences("login", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -401,7 +401,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         editor.putString("faceid", "");
         editor.putString("imageURI", "");
         editor.apply();
-        startActivity(new Intent(MapActivity.this, LoginActivity.class));
+        startActivity(new Intent(MapActivity.this, LoginActivity2.class));
         finish();
     }
 

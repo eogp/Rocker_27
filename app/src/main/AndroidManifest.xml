@@ -13,15 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCKuOLACtSDV8ZV6lVmyApvsNBfgcu28VE" />
-
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -42,8 +39,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
@@ -68,9 +63,14 @@
         <activity
             android:name=".ListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".FiltroActivity"
+        <activity
+            android:name=".FiltroActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".DetalleActivity"
+        <activity
+            android:name=".DetalleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity2"
             android:screenOrientation="portrait" />
     </application>
 

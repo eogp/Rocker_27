@@ -130,7 +130,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, ListActivity.class));
 
         }else{
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            startActivity(new Intent(SplashActivity.this, LoginActivity2.class));
 
         }
         finish();

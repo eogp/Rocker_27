@@ -504,7 +504,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    //BORRA LA SESION Y LANZA LOGINACTIVITY
+    //BORRA LA SESION Y LANZA LOGINACTIVITY2
     private void cerrarSesion(){
         SharedPreferences sharedPref = getSharedPreferences("login",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -515,7 +515,7 @@ public class ListActivity extends AppCompatActivity {
         editor.putString("faceid","");
         editor.putString("imageURI","");
         editor.apply();
-        startActivity(new Intent(ListActivity.this, LoginActivity.class));
+        startActivity(new Intent(ListActivity.this, LoginActivity2.class));
         finish();
     }
 
