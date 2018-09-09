@@ -130,7 +130,7 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-        verificarPermisosLocalizacion();
+        //verificarPermisosLocalizacion();
 
         //obtencion de orden para listdao
         obtenerOrden();
@@ -160,7 +160,7 @@ public class ListActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        verificarPermisosLocalizacion();
+        //verificarPermisosLocalizacion();
 
     }
 
@@ -398,7 +398,8 @@ public class ListActivity extends AppCompatActivity {
                 activarLocalizacion();
 
             } else {
-                dialogoFaltanPermisos();
+               // dialogoFaltanPermisos();
+                solicitarPermisosLocalizacion();
             }
 
         }
@@ -412,30 +413,32 @@ public class ListActivity extends AppCompatActivity {
     private void activarLocalizacion(){
 
         //implementacion obligatoria para verificar permisos de loclaizacion
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            dialogoFaltanPermisos();
-            return;
-        }
-        //habilita la localizacion de play services
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                            obtenerDistancias(listadoActual,location);
-                            filtrarListadoPorDistanciaMaxima();
-                            ordenarListado(listadoActual);
-                            actualizarRecyclerView(listadoActual);
-                        }else{
-                            Toast toast= Toast.makeText(ListActivity.this, "Esperado ubicación.", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.BOTTOM,0,200);
-                            toast.show();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //dialogoFaltanPermisos();
+            //habilita la localizacion de play services
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                obtenerDistancias(listadoActual,location);
+                                filtrarListadoPorDistanciaMaxima();
+                                ordenarListado(listadoActual);
+                                actualizarRecyclerView(listadoActual);
+                            }else{
+                                Toast toast= Toast.makeText(ListActivity.this, "Esperado ubicación.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.BOTTOM,0,200);
+                                toast.show();
+                            }
                         }
-                    }
-                });
+                    });
+            //solicitarPermisosLocalizacion();
+
+        }
+
 
 
     }

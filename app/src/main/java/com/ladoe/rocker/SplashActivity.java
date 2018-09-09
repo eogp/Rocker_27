@@ -5,8 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -68,8 +72,47 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         oHttpClient.cancelAllRequests(true);
         finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Log.i("map", "Grupo de permisos otorgado: LOCACTION");
+                habilitarAcceso();
+
+            } else {
+                finish();
+            }
+
+        }
+    }
+
+    //PERMISOS LOCATION
+    private void verificarPermisosLocalizacion() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Log.i("map", "Grupo de permisos otorgado: LOCACTION");
+                habilitarAcceso();
+
+            } else {
+                solicitarPermisosLocalizacion();
+            }
+
+        }
+    }
+    private void solicitarPermisosLocalizacion(){
+        ActivityCompat.requestPermissions(
+                this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1222);
     }
 
     private void cargarPager() {
@@ -165,7 +208,7 @@ public class SplashActivity extends AppCompatActivity {
     private void parseoPublicaicones(JSONObject obj){
         PubFactory.generarListas(obj);
         //iniciarApp();
-        habilitarAcceso();
+        verificarPermisosLocalizacion();
     }
 
     //HABILITA BTN DE ACCESO
