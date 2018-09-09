@@ -4,13 +4,25 @@ package com.ladoe.rocker;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
 
 import com.ladoe.rocker.Constantes.CLAVES;
+import com.ladoe.rocker.Fragments.SplashFragment_1;
+import com.ladoe.rocker.Fragments.SplashFragment_2;
+import com.ladoe.rocker.Fragments.SplashFragment_3;
 import com.ladoe.rocker.Patrones.PubFactory;
+import com.ladoe.rocker.Patrones.SectionsPagerAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -18,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;
@@ -28,11 +42,18 @@ import cz.msebera.android.httpclient.protocol.HTTP;
 public class SplashActivity extends AppCompatActivity {
 
     private AsyncHttpClient oHttpClient;
-//
+    private ViewPager viewPager;
+    private SectionsPagerAdapter pagerAdapter;
+    private ImageView arrow;
+    private List<ImageView> indicador=new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        cargarPager();
 
         try {
             cargarPublicaciones();
@@ -49,6 +70,38 @@ public class SplashActivity extends AppCompatActivity {
         super.onPause();
         oHttpClient.cancelAllRequests(true);
         finish();
+    }
+
+    private void cargarPager() {
+        SplashFragment_1 splashFragment_1=new SplashFragment_1();
+        SplashFragment_2 splashFragment_2=new SplashFragment_2();
+        SplashFragment_3 splashFragment_3=new SplashFragment_3();
+
+        this.viewPager=findViewById(R.id.pager);
+        this.pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        this.pagerAdapter.addFragment(splashFragment_1);
+        this.pagerAdapter.addFragment(splashFragment_2);
+        this.pagerAdapter.addFragment(splashFragment_3);
+        this.viewPager.setAdapter(pagerAdapter);
+        this.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                indicarPosicion(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                indicarPosicion(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+
+
+        });
     }
 
     //CARGA INICIAL-------------------------------------------
@@ -111,7 +164,33 @@ public class SplashActivity extends AppCompatActivity {
     //PARSEO JSON A LIST PUBLICACIONES
     private void parseoPublicaicones(JSONObject obj){
         PubFactory.generarListas(obj);
-        iniciarApp();
+        //iniciarApp();
+        habilitarAcceso();
+    }
+
+    //HABILITA BTN DE ACCESO
+    private void habilitarAcceso(){
+        arrow=findViewById(R.id.imageViewArrow);
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarApp();
+            }
+        });
+        arrow.setVisibility(View.VISIBLE);
+    }
+    
+    //CAMBIA INDICADOR DE POSICION SWIPE
+    public void indicarPosicion(int position){
+        if(indicador.isEmpty()){
+            indicador.add((ImageView)findViewById(R.id.circulo1));
+            indicador.add((ImageView)findViewById(R.id.circulo2));
+            indicador.add((ImageView)findViewById(R.id.circulo3));
+        }
+        for (ImageView imageView:indicador) {
+            imageView.setImageResource(R.mipmap.punto_splash);
+        }
+        indicador.get(position).setImageResource(R.mipmap.punto_splash_seleccionado);
     }
 
     //INICIO APP
