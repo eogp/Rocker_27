@@ -43,8 +43,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView textViewLocalidad;
         public TextView textViewTelefono;
         public ImageView imageViewTipo;
-        public ImageView imageViewLLamar;
-        public ImageView imageViewDetalles;
         public ConstraintLayout constraintLayout;
 
         public ViewHolder(View ItemView) {
@@ -56,8 +54,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             textViewLocalidad=itemView.findViewById(R.id.textViewLocalidad);
             textViewTelefono=itemView.findViewById(R.id.textViewTelefono);
             imageViewTipo=itemView.findViewById(R.id.imageViewTipo);
-            imageViewLLamar=itemView.findViewById(R.id.imageViewLLamar);
-            imageViewDetalles=itemView.findViewById(R.id.imageViewDetalles);
             constraintLayout=itemView.findViewById(R.id.constraintLayout);
 
         }
@@ -95,6 +91,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         Publicacion publicacion=mDataset.get(position);
         TipoPublicacion tipoPublicacion=tipoPublicacionList.get(publicacion.getDatosBasicos().getTipoPub()-1);
+        imagenPorTipo(tipoPublicacion.getId(), holder.imageViewTipo);
         holder.textViewNombre.setText(publicacion.getDatosBasicos().getNombre());
         holder.textViewTipo.setText(tipoPublicacion.getDescripcion());
         if(publicacion.getDistancia()==null)
@@ -109,7 +106,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.textViewDireccion.setText(publicacion.getDireccion().getCalle()+" "+publicacion.getDireccion().getAltura());
         holder.textViewTelefono.setText(publicacion.getTelefono().getCodArea()+" "+publicacion.getTelefono().getNumero());
 
-        holder.imageViewDetalles.setOnClickListener(new View.OnClickListener() {
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra(CLAVES.ID,mDataset.get(position).getDatosBasicos().getId());
@@ -117,13 +114,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             }
         });
 
-        holder.imageViewLLamar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listActivity.llamar(mDataset.get(position));
 
-            }
-        });
 
     }
 
@@ -132,5 +123,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         return mDataset.size();
 
+    }
+
+    public void imagenPorTipo(int tipo, ImageView imageView){
+        switch (tipo){
+            case 1:
+                imageView.setImageResource(R.mipmap.icono_salasyestudios);
+                break;
+            case 2:
+                imageView.setImageResource(R.mipmap.icono_ventadeinstrumentos);
+                break;
+            case 3:
+                imageView.setImageResource(R.mipmap.icono_estilodevida);
+                break;
+            case 4:
+                imageView.setImageResource(R.mipmap.icono_serviciosprofesionales);
+                break;
+            case 5:
+                imageView.setImageResource(R.mipmap.icono_fechasyeventos);
+                break;
+        }
     }
 }
