@@ -37,6 +37,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -143,7 +144,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         //veficacion de permisos
-        verificarPermisosLocation();
+        //verificarPermisosLocation();
         //carga de contenido
         cargarDatosUsuario();
         cargarListado();
@@ -164,11 +165,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onBackPressed() {
         dialogoSalir();
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        verificarPermisosLocation();
-
     }
 
     //DIALOGOS
@@ -426,27 +422,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapStyle(new MapStyleOptions(getResources()
+                .getString(R.string.style_json)));
         mMap.getUiSettings().setMapToolbarEnabled(false);
         //habilita boton myLocation
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         //habilita todos los gestos
         //mMap.getUiSettings().setAllGesturesEnabled(true);
         //implementacion obligatoria google maps para verificar permisos de loclaizacion
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            dialogoFaltanPermisos();
-            return;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+            activarLocalizacion(true);
+
         }
+
         //habilita la localizacion de maps
-        mMap.setMyLocationEnabled(true);
-        activarLocalizacion(true);
         cargarMarcadores();
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                mostrarItemDetalle(marker);
+                //mostrarItemDetalle(marker);
+                mostrarDetalleActivity(marker);
                 return true;
             }
         });
@@ -492,8 +491,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Marcadores
         if (mMap != null){
             mMap.clear();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.pua);
             for (Publicacion publicacion : listadoActual) {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                        imagenPorTipo(PubFactory.getTipoPublicacionList().get(publicacion.getDatosBasicos().getTipoPub()-1).getId()));
+
                 DecimalFormat df = new DecimalFormat("#.##");
                 publicacion.setMarker(mMap.addMarker(new MarkerOptions().position(
                         new LatLng(publicacion.getDireccion().getLatitud(),
@@ -507,36 +508,57 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
-
+    public int imagenPorTipo(int tipo){
+        int retorno=R.mipmap.ic_logo;
+        switch (tipo){
+            case 1:
+                retorno= R.mipmap.marker_salasyestudios;
+                break;
+            case 2:
+                retorno= R.mipmap.marker_ventadeinstrumentos;
+                break;
+            case 3:
+                retorno= R.mipmap.marker_estilodevida;
+                break;
+            case 4:
+                retorno= R.mipmap.marker_serviciosprofesionales;
+                break;
+            case 5:
+                retorno= R.mipmap.marker_fechasyeventos;
+                break;
+        }
+        return retorno;
+    }
     //LOCATION
     public void activarLocalizacion(boolean activar){
         if(activar) {
 
             //implementacion obligatoria google maps para verificar permisos de loclaizacion
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                dialogoFaltanPermisos();
-                return;
-            }
-            //habilita la localizacion de play services
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                reubicarCamara(location);
-                                obtenerDistancias(listadoActual, location);
-                                filtrarListadoPorDistanciaMaxima();
-                                cargarMarcadores();
-                            }else{
-                                Toast toast= Toast.makeText(MapActivity.this, "Esperado ubicación.", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.BOTTOM,0,200);
-                                toast.show();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                //dialogoFaltanPermisos();
+
+                //habilita la localizacion de play services
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    // Logic to handle location object
+                                    reubicarCamara(location);
+                                    obtenerDistancias(listadoActual, location);
+                                    filtrarListadoPorDistanciaMaxima();
+                                    cargarMarcadores();
+                                }else{
+                                    Toast toast= Toast.makeText(MapActivity.this, "Esperado ubicación.", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.BOTTOM,0,200);
+                                    toast.show();
+                                }
                             }
-                        }
-                    });
+                        });
+            }
+
         }
         else{
             //habilita la localizacion de play services
@@ -561,6 +583,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public void mostrarDetalleActivity(Marker marker){
+        for(Publicacion publicacion:listadoActual){
+            if(publicacion.getMarker().equals(marker)){
+                mostrarDetalleActivity(publicacion);
+            }
+        }
+    }
     public void mostrarDetalleActivity(Publicacion publicacion){
         Intent intent=new Intent(MapActivity.this, DetalleActivity.class);
         intent.putExtra(CLAVES.ID,publicacion.getDatosBasicos().getId());
