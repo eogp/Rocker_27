@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,8 +73,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView textViewFiltros;
     private GoogleMap mMap;
     private FrameLayout frameLayout;
-
     private List<Publicacion> listadoActual;
+    private LinearLayout linearLayoutListado;
+    private LinearLayout linearLayoutFiltros;
+
     //POSISIONAMIENTO
     private FusedLocationProviderClient mFusedLocationClient;
     //FILTRO
@@ -87,43 +90,45 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         //instancias principal
-        mDrawerLayout =  findViewById(R.id.drawer_layout);
-        imageViewOpenDrawer =  findViewById(R.id.imageViewOpenDrawer);
+//        mDrawerLayout =  findViewById(R.id.drawer_layout);
+//        imageViewOpenDrawer =  findViewById(R.id.imageViewOpenDrawer);
         textViewListado = findViewById(R.id.textViewListado);
         textViewFiltros = findViewById(R.id.textViewFiltros);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         sharedPref = getSharedPreferences(CLAVES.FILTRO, MODE_PRIVATE);
-        frameLayout=findViewById(R.id.itemDetalle);
+        linearLayoutListado=findViewById(R.id.LinearLayoutListado);
+        linearLayoutFiltros=findViewById(R.id.linearLayoutFiltros);
+//        frameLayout=findViewById(R.id.itemDetalle);
 
         //instancias menu
-        imageViewCloseDrawer =  findViewById(R.id.imageViewCloseDrawer);
-        scrollViewMenu =  findViewById(R.id.scrollViewMenu);
-        textViewCerrarSesion = findViewById(R.id.textViewCerrarSesion);
-        editTextNombre =  findViewById(R.id.editTextNombre);
-        editTextMail = findViewById(R.id.editTextMail);
-        imageViewPerfil = findViewById(R.id.imageViewPerfil);
+//        imageViewCloseDrawer =  findViewById(R.id.imageViewCloseDrawer);
+//        scrollViewMenu =  findViewById(R.id.scrollViewMenu);
+//        textViewCerrarSesion = findViewById(R.id.textViewCerrarSesion);
+//        editTextNombre =  findViewById(R.id.editTextNombre);
+//        editTextMail = findViewById(R.id.editTextMail);
+//        imageViewPerfil = findViewById(R.id.imageViewPerfil);
 
 
         //listeners
-        imageViewOpenDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDrawerLayout.openDrawer(scrollViewMenu);
-            }
-        });
-        imageViewCloseDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDrawerLayout.closeDrawers();
-            }
-        });
-        textViewCerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogoCerrarSesion();
-            }
-        });
-        textViewListado.setOnClickListener(new View.OnClickListener() {
+//        imageViewOpenDrawer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mDrawerLayout.openDrawer(scrollViewMenu);
+//            }
+//        });
+//        imageViewCloseDrawer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mDrawerLayout.closeDrawers();
+//            }
+//        });
+//        textViewCerrarSesion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialogoCerrarSesion();
+//            }
+//        });
+        linearLayoutListado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(loadImage!=null)
@@ -132,7 +137,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 finish();
             }
         });
-        textViewFiltros.setOnClickListener(new View.OnClickListener() {
+        linearLayoutFiltros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MapActivity.this, FiltroActivity.class);
@@ -146,7 +151,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //veficacion de permisos
         //verificarPermisosLocation();
         //carga de contenido
-        cargarDatosUsuario();
+//        cargarDatosUsuario();
         cargarListado();
         //carga de mapa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -252,7 +257,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void cargarListado(){
         //FILTRADO DE PUBLICACION POR TIPO Y SUBTIPO
         if(sharedPref.getBoolean(CLAVES.FILTRAR, false)){
-            textViewFiltros.setTextColor(Color.MAGENTA);
+//            textViewFiltros.setTextColor(getResources().getColor(R.color.colorAccent));
             switch (sharedPref.getInt(CLAVES.CATEGORIA, 0)) {
                 case 0:
                     cargarListadoCompleto();
@@ -473,7 +478,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         FragmentManager fragmentManager = getFragmentManager();
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.itemDetalle, itemDetalleFragment).commit();
+//        fragmentTransaction.add(R.id.itemDetalle, itemDetalleFragment).commit();
         frameLayout.setVisibility(View.VISIBLE);
     }
     public void quitarItemDetalle(){

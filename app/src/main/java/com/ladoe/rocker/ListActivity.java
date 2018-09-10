@@ -12,17 +12,21 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +63,9 @@ public class ListActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
     private ImageView imageViewOpenDrawer;
     private List<Publicacion> listadoActual;
+    private LinearLayout linearLayoutMapa;
+    private LinearLayout linearLayoutFiltros;
+
     //POSISIONAMIENTO
     private FusedLocationProviderClient mFusedLocationClient;
     //CRITERIOS DE ORDEN LISTADO
@@ -66,60 +73,59 @@ public class ListActivity extends AppCompatActivity {
     //FILTRO
     SharedPreferences sharedPref;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-
         //instancias
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        imageViewOpenDrawer = findViewById(R.id.imageViewOpenDrawer);
+//        mDrawerLayout = findViewById(R.id.drawer_layout);
+//        imageViewOpenDrawer = findViewById(R.id.imageViewOpenDrawer);
         TextView textViewMapa=findViewById(R.id.textViewMapa);
         textViewFiltros=findViewById(R.id.textViewFiltros);
         mRecyclerView = findViewById(R.id.my_recycler_view);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         sharedPref = getSharedPreferences(CLAVES.FILTRO, MODE_PRIVATE);
-
+        linearLayoutMapa=findViewById(R.id.linearLayoutMapa);
+        linearLayoutFiltros=findViewById(R.id.linearLayoutFiltros);
         //instancias menu
-        ImageView imageViewCloseDrawer =findViewById(R.id.imageViewCloseDrawer);
-        scrollViewMenu=findViewById(R.id.scrollViewMenu);
-        TextView textViewCerrarSesion=findViewById(R.id.textViewCerrarSesion);
-        editTextNombre=findViewById(R.id.editTextNombre);
-        editTextMail= findViewById(R.id.editTextMail);
-        imageViewPerfil=findViewById(R.id.imageViewPerfil) ;
+//        ImageView imageViewCloseDrawer =findViewById(R.id.imageViewCloseDrawer);
+//        scrollViewMenu=findViewById(R.id.scrollViewMenu);
+//        TextView textViewCerrarSesion=findViewById(R.id.textViewCerrarSesion);
+//        editTextNombre=findViewById(R.id.editTextNombre);
+//        editTextMail= findViewById(R.id.editTextMail);
+//        imageViewPerfil=findViewById(R.id.imageViewPerfil) ;
 
 
-        //listeners
-        imageViewOpenDrawer.setOnClickListener(new View.OnClickListener() {
+//        //listeners
+//        imageViewOpenDrawer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mDrawerLayout.openDrawer(scrollViewMenu);
+//            }
+//        });
+//        imageViewCloseDrawer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mDrawerLayout.closeDrawers();
+//            }
+//        });
+//        textViewCerrarSesion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialogoCerrarSesion();
+//            }
+//        });
+        linearLayoutMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDrawerLayout.openDrawer(scrollViewMenu);
-            }
-        });
-        imageViewCloseDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDrawerLayout.closeDrawers();
-            }
-        });
-        textViewCerrarSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogoCerrarSesion();
-            }
-        });
-        textViewMapa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(loadImage!=null)
-                    loadImage.cancel(true);
+//                if(loadImage!=null)
+//                    loadImage.cancel(true);
                 startActivity(new Intent(ListActivity.this, MapActivity.class));
                 finish();
             }
         });
-        textViewFiltros.setOnClickListener(new View.OnClickListener() {
+        linearLayoutFiltros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListActivity.this, FiltroActivity.class);
@@ -136,8 +142,7 @@ public class ListActivity extends AppCompatActivity {
         obtenerOrden();
 
         //carga de contenido
-
-        cargarDatosUsuario();
+//        cargarDatosUsuario();
         cargarListado();
         cargarRecyclerView(listadoActual,PubFactory.getTipoPublicacionList());
         activarLocalizacion();
@@ -247,7 +252,7 @@ public class ListActivity extends AppCompatActivity {
     private void cargarListado(){
         //FILTRADO DE PUBLICACION POR TIPO Y SUBTIPO
         if(sharedPref.getBoolean(CLAVES.FILTRAR, false)){
-            textViewFiltros.setTextColor(Color.MAGENTA);
+            textViewFiltros.setTextColor(getResources().getColor(R.color.colorAccent));
             switch (sharedPref.getInt(CLAVES.CATEGORIA, 0)) {
                 case 0:
                     cargarListadoCompleto();
