@@ -1,6 +1,7 @@
 package com.ladoe.rocker;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.ladoe.rocker.Constantes.CLAVES;
@@ -150,6 +152,8 @@ public class SplashActivity extends AppCompatActivity {
     //CARGA INICIAL-------------------------------------------
     //OBTENCION DE JSON DEL BACKEND
     private void cargarPublicaciones() throws JSONException, UnsupportedEncodingException {
+        mostrarToast("Cargando...");
+
         JSONObject oJSONObject = new JSONObject();
         oJSONObject.put("user","Super_User@rockerapp.com");
         oJSONObject.put("pass","Super_Pass");
@@ -202,6 +206,13 @@ public class SplashActivity extends AppCompatActivity {
                 System.out.println(retryNo);
             }
         });
+    }
+
+    private void mostrarToast(CharSequence text) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     //PARSEO JSON A LIST PUBLICACIONES

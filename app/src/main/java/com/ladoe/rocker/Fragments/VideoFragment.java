@@ -86,11 +86,17 @@ public class VideoFragment extends Fragment {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
                 if (!wasRestored) {
-                    String uri[]=mParam1.split("=");
-
-                    player.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
-                    player.loadVideo(uri[1]);
-                    //player.play();
+                    if(mParam1!=null && mParam1!=""){
+                        Log.d("idvideo:", " "+mParam1);
+                        String uri[] = mParam1.split("=");
+                        player.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
+                        if(uri.length>1) {
+                            player.loadVideo(uri[1]);
+                            //player.play();
+                        }else{
+                            player.pause();
+                        }
+                    }
                 }
             }
 

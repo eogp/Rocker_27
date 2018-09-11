@@ -545,7 +545,13 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void publicar(){
-        startActivity(new Intent(ListActivity.this, WebActivity.class));
+        //startActivity(new Intent(ListActivity.this, WebActivity.class));
+        Uri webpage = Uri.parse("https://rockerapp.com/RegistroUsuario.php");
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+
+        }
 
     }
 

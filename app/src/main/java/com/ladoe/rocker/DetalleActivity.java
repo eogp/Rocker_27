@@ -191,7 +191,8 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
     private void generarFragmentImagenesYVideo(SectionsPagerAdapter pagerAdapter, ViewPager viewPager ){
         if(publicacion!=null) {
 
-            if (!publicacion.getVideo().equals("null")) {
+            if (!publicacion.getVideo().equals("null")&&!publicacion.getVideo().getUri().equals("")) {
+               // Log.d("video", "i"+publicacion.getVideo().getUri()+"f");
                 pagerAdapter.addFragment(VideoFragment.newInstance(publicacion.getVideo().getUri(), null));
             }
 
