@@ -41,8 +41,7 @@
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,6 +72,7 @@
         <activity
             android:name=".LoginActivity2"
             android:screenOrientation="portrait" />
+        <activity android:name=".WebActivity"></activity>
     </application>
 
 </manifest>

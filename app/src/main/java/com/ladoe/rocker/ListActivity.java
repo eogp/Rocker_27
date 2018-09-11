@@ -24,6 +24,7 @@ import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,6 +66,7 @@ public class ListActivity extends AppCompatActivity {
     private List<Publicacion> listadoActual;
     private LinearLayout linearLayoutMapa;
     private LinearLayout linearLayoutFiltros;
+    private Button btnPublicar;
 
     //POSISIONAMIENTO
     private FusedLocationProviderClient mFusedLocationClient;
@@ -88,6 +90,7 @@ public class ListActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences(CLAVES.FILTRO, MODE_PRIVATE);
         linearLayoutMapa=findViewById(R.id.linearLayoutMapa);
         linearLayoutFiltros=findViewById(R.id.linearLayoutFiltros);
+        btnPublicar=findViewById(R.id.buttonPublicar);
         //instancias menu
 //        ImageView imageViewCloseDrawer =findViewById(R.id.imageViewCloseDrawer);
 //        scrollViewMenu=findViewById(R.id.scrollViewMenu);
@@ -116,6 +119,12 @@ public class ListActivity extends AppCompatActivity {
 //                dialogoCerrarSesion();
 //            }
 //        });
+        btnPublicar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                publicar();
+            }
+        });
         linearLayoutMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -533,6 +542,11 @@ public class ListActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    public void publicar(){
+        startActivity(new Intent(ListActivity.this, WebActivity.class));
+
     }
 
 }

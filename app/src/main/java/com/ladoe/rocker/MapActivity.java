@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -76,6 +77,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List<Publicacion> listadoActual;
     private LinearLayout linearLayoutListado;
     private LinearLayout linearLayoutFiltros;
+    private Button btnPublicar;
+
 
     //POSISIONAMIENTO
     private FusedLocationProviderClient mFusedLocationClient;
@@ -98,6 +101,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         sharedPref = getSharedPreferences(CLAVES.FILTRO, MODE_PRIVATE);
         linearLayoutListado=findViewById(R.id.LinearLayoutListado);
         linearLayoutFiltros=findViewById(R.id.linearLayoutFiltros);
+        btnPublicar=findViewById(R.id.buttonPublicar);
+
 //        frameLayout=findViewById(R.id.itemDetalle);
 
         //instancias menu
@@ -128,6 +133,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //                dialogoCerrarSesion();
 //            }
 //        });
+        btnPublicar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                publicar();
+            }
+        });
         linearLayoutListado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -608,6 +619,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public void publicar(){
+        startActivity(new Intent(MapActivity.this, WebActivity.class));
 
+    }
 
 }

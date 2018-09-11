@@ -3,13 +3,16 @@ package com.ladoe.rocker;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +47,7 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
 
     private Publicacion publicacion;
     private GoogleMap mMap;
+    private Button btnLLamar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
         ViewPager mViewPager=(findViewById(R.id.myViewPager));
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ImageView imageViewBack=findViewById(R.id.imageViewBack);
+        btnLLamar=findViewById(R.id.buttonLLamar);
 
         //listener arrow back
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +70,14 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
 
         //obtener publicacion por id
         obtenerPublicacion();
+
+        //listener btn llamar
+        btnLLamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llamar(publicacion);
+            }
+        });
 
         //carga de mapa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -207,7 +220,11 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
         // Marcador
         if (mMap != null){
             mMap.clear();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.pua);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    imagenPorTipo(PubFactory.getTipoPublicacionList().get(publicacion.getDatosBasicos().getTipoPub()-1).getId()));
+
+
+            //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.pua);
             LatLng latLng=new LatLng(publicacion.getDireccion().getLatitud(), publicacion.getDireccion().getLongitud());
             DecimalFormat df = new DecimalFormat("#.##");
             publicacion.setMarker(mMap.addMarker(new MarkerOptions().position(latLng)
@@ -220,9 +237,39 @@ public class DetalleActivity extends AppCompatActivity implements OnMapReadyCall
             reubicarCamara(latLng);
         }
     }
+    public int imagenPorTipo(int tipo){
+        int retorno=R.mipmap.ic_logo;
+        switch (tipo){
+            case 1:
+                retorno= R.mipmap.marker_salasyestudios;
+                break;
+            case 2:
+                retorno= R.mipmap.marker_ventadeinstrumentos;
+                break;
+            case 3:
+                retorno= R.mipmap.marker_estilodevida;
+                break;
+            case 4:
+                retorno= R.mipmap.marker_serviciosprofesionales;
+                break;
+            case 5:
+                retorno= R.mipmap.marker_fechasyeventos;
+                break;
+        }
+        return retorno;
+    }
+
     public void reubicarCamara(LatLng latLng) {
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(
                 latLng, 15f)));
 
+    }
+
+    public void llamar(Publicacion publicacion){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + publicacion.getTelefono().getCodArea()+publicacion.getTelefono().getNumero()));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
