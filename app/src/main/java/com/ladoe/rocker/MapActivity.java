@@ -268,7 +268,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void cargarListado(){
         //FILTRADO DE PUBLICACION POR TIPO Y SUBTIPO
         if(sharedPref.getBoolean(CLAVES.FILTRAR, false)){
-//            textViewFiltros.setTextColor(getResources().getColor(R.color.colorAccent));
+            textViewFiltros.setTextColor(getResources().getColor(R.color.seleccionado));
             switch (sharedPref.getInt(CLAVES.CATEGORIA, 0)) {
                 case 0:
                     cargarListadoCompleto();

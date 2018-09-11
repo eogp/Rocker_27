@@ -248,13 +248,14 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("login", MODE_PRIVATE);
         int autologin = sharedPref.getInt("autologin", 0);
         Log.d("splash", "autologin: "+autologin);
-        if (autologin != 0) {
-            startActivity(new Intent(SplashActivity.this, ListActivity.class));
-
-        }else{
-            startActivity(new Intent(SplashActivity.this, LoginActivity2.class));
-
-        }
+        startActivity(new Intent(SplashActivity.this, ListActivity.class));
+//        if (autologin != 0) {
+//            startActivity(new Intent(SplashActivity.this, ListActivity.class));
+//
+//        }else{
+//            startActivity(new Intent(SplashActivity.this, LoginActivity2.class));
+//
+//        }
         finish();
     }
 

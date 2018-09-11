@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LLEVÁLA GUÍA MÁS COMPLETA"
+            android:text="LLEVÁ LA GUÍA MÁS COMPLETA"
             android:textColor="#fff"
             android:textSize="16sp"
             android:textStyle="bold" />

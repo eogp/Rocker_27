@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#6600ff</color>
     <color name="colorBlanco">#ffffff</color>
-
+    <color name="seleccionado">#00D8D8</color>
 
 
 </resources>
